@@ -13,6 +13,7 @@ using ZygoteRules
 using SparseArrays: SparseMatrixCSC
 using LinearAlgebra: I, issymmetric, diagm, eigmax
 using DataStructures: DefaultDict
+using ProgressMeter
 
 import Base: identity
 import Base.Threads: atomictypes, llvmtypes, inttype, ArithmeticTypes, FloatTypes,
@@ -121,25 +122,25 @@ include("layers/msgpass.jl")
 include("layers/conv.jl")
 include("layers/pool.jl")
 include("models.jl")
+include("linalg.jl")
+include("graph/utils.jl")
 
-
-function __init__()
-    @require CuArrays = "3a865a2d-5b23-5a0f-bc46-62713ec82fae" begin
-        using CUDAnative
-        using CuArrays
-        import CuArrays: cu
-        include("cuda/scatter.jl")
-        include("cuda/pool.jl")
-        include("cuda/utils.jl")
-        CuArrays.cu(x::Array{<:Integer}) = CuArray(x)
-    end
-    @require LightGraphs = "093fc24a-ae57-5d10-9952-331d41423f4d" begin
-        include("graph/simplegraphs.jl")
-    end
-    @require SimpleWeightedGraphs = "47aef6b3-ad0c-573a-a1e2-d07658019622" begin
-        include("graph/weightedgraphs.jl")
-        include("graph/utils.jl")
-    end
-end
+# function __init__()
+    # @require CuArrays = "3a865a2d-5b23-5a0f-bc46-62713ec82fae" begin
+    # using CUDAnative
+    # using CuArrays
+    # import CuArrays: cu
+    # include("cuda/scatter.jl")
+    # include("cuda/pool.jl")
+    # include("cuda/utils.jl")
+    # CuArrays.cu(x::Array{<:Integer}) = CuArray(x)
+    # end
+    # @require LightGraphs = "093fc24a-ae57-5d10-9952-331d41423f4d" begin
+    # include("graph/simplegraphs.jl")
+    # end
+    # @require SimpleWeightedGraphs = "47aef6b3-ad0c-573a-a1e2-d07658019622" begin
+    # include("graph/weightedgraphs.jl")
+    # include("graph/utils.jl")
+# end
 
 end
