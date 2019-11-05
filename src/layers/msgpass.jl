@@ -13,6 +13,17 @@ function propagate(mp::T; aggr::Symbol=:add, kwargs...) where {T<:MessagePassing
     return Y
 end
 
+# function neighboring(mp::T; kwargs...) where {T<:MessagePassing}
+#     adj = adjlist(mp)
+#     for (i, ns) in enumerate(adj)
+#         for (jdx, j) in enumerate(ns)
+#             msg_args = getdata(kwargs, i, j)
+#             M = message(mp; msg_args...)
+#             apply_messages(mp, M, adj; kwargs...)
+#         end
+#     end
+# end
+
 function neighboring(mp::T; kwargs...) where {T<:MessagePassing}
     adj = adjlist(mp)
     msg_args = getdata(kwargs, 1, adj[1])
@@ -45,7 +56,7 @@ function apply_messages(mp, M::AbstractMatrix{T}, adj::AbstractVector{<:Abstract
         cluster = Vector{Int}(undef, ne_N)
         cluster[1:n] .= 1
         j = n
-        @inbounds for i = 2:N
+        @inbounds @showprogress for i = 2:N
             ne = adj[i]
             n = length(ne)
             msg_args = getdata(kwargs, i, ne)

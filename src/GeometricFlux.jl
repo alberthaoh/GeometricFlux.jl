@@ -9,6 +9,7 @@ using Flux: param, glorot_uniform, leakyrelu, GRUCell
 using Flux: @treelike
 using SparseArrays: SparseMatrixCSC
 using LinearAlgebra: I, issymmetric, diagm, eigmax
+using ProgressMeter
 
 import Base.Threads: atomictypes, llvmtypes, inttype, ArithmeticTypes, FloatTypes,
        atomic_cas!,
@@ -77,17 +78,17 @@ include("layers/conv.jl")
 include("layers/pool.jl")
 include("models.jl")
 include("linalg.jl")
+include("graph/utils.jl")
 
-
-function __init__()
-    @require LightGraphs = "093fc24a-ae57-5d10-9952-331d41423f4d" begin
-        include("graph/simplegraphs.jl")
-    end
-    @require SimpleWeightedGraphs = "47aef6b3-ad0c-573a-a1e2-d07658019622" begin
-        include("graph/weightedgraphs.jl")
-        include("graph/utils.jl")
-    end
-    @require MetaGraphs = "626554b9-1ddb-594c-aa3c-2596fe9399a5" include("metagraphs.jl")
-end
+# function __init__()
+#     @require LightGraphs = "093fc24a-ae57-5d10-9952-331d41423f4d" begin
+#         include("graph/simplegraphs.jl")
+#     end
+#     @require SimpleWeightedGraphs = "47aef6b3-ad0c-573a-a1e2-d07658019622" begin
+#         include("graph/weightedgraphs.jl")
+#         include("graph/utils.jl")
+#     end
+#     @require MetaGraphs = "626554b9-1ddb-594c-aa3c-2596fe9399a5" include("graph/metagraphs.jl")
+# end
 
 end
